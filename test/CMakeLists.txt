@@ -13,17 +13,23 @@ else()
 endif()
 
 # 遍历主目录源文件，删除cmake自动生成的main源文件
-file(GLOB_RECURSE  SOURCE_FILES "*.cpp" "../easyhttp/*.cpp")
+file(GLOB_RECURSE  SOURCE_FILES "../easyhttp/*.cpp")
+set(SOURCE_FILES ${SOURCE_FILES} main.cpp http_server_test.cpp)
 file(GLOB_RECURSE  DEBUG_REMOVE_FILE "debug/*")
 file(GLOB_RECURSE  RELEASE_REMOVE_FILE "release/*")
-list(REMOVE_ITEM SOURCE_FILES ${DEBUG_REMOVE_FILE} ${RELEASE_REMOVE_FILE})
+#list(REMOVE_ITEM SOURCE_FILES ${DEBUG_REMOVE_FILE} ${RELEASE_REMOVE_FILE})
+
+message(STATUS ${SOURCE_FILES})
 
 # 依赖包含 
+include_directories(/usr/local/boost_1_66_0/include/)
+include_directories(/usr/local/thirdparties/common/include)
 include_directories(../)
 include_directories(/usr/local/3rdparty/include)
 
 # 链接依赖
 link_directories(/usr/local/3rdparty/lib)
+link_directories(/usr/local/boost_1_66_0/lib/)
 
 # 可执行程序
 add_executable(${OUT_NAME} ${SOURCE_FILES})
